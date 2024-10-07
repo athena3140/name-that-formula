@@ -2,7 +2,7 @@
 	"rewrites": [
 		{
 			"source": "/writing",
-			"destination": "https://name-that-formula.vercel.app/"
+			"destination": "https://google.com/"
 		}
 	]
 }
