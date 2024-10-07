@@ -1,8 +1,3 @@
 {
-	"rewrites": [
-		{
-			"source": "/writing",
-			"destination": "https://google.com/"
-		}
-	]
+	"rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }

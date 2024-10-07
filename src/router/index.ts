@@ -9,7 +9,7 @@ const routes: Array<RouteRecordRaw> = [
 	{
 		path: "/writing",
 		name: "writing",
-		component: import("../views/FormulaWriting.vue"),
+		component: () => import("../views/FormulaWriting.vue"),
 	},
 	{
 		path: "/:pathMatch(.*)*",
