@@ -11,6 +11,10 @@ const routes: Array<RouteRecordRaw> = [
 		name: "writing",
 		component: import("../views/FormulaWriting.vue"),
 	},
+	{
+		path: "/:pathMatch(.*)*",
+		redirect: "/",
+	},
 ];
 
 const router = createRouter({
