@@ -3,7 +3,7 @@
 		<div class="p-6 rounded-md space-y-4" :class="mode == 'naming' ? 'bg-purple-100' : 'bg-pink-100'">
 			<h4 class="font-semibold flex items-center text-xl">
 				<InfoIcon class="mr-2 h-5 w-5" />
-				{{ mode == "naming" ? "Naming" : "Formula" }} Format Guide:
+				{{ mode == "naming" ? "Naming" : "Writing" }} Format Guide:
 			</h4>
 			<ul class="space-y-2">
 				<li v-for="(rule, index) in rules" :key="index" class="flex items-center">
