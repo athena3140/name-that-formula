@@ -99,7 +99,7 @@ const writingRules = [
 
 const changeMode = (newMode) => {
 	currentMode.value !== newMode ? store.commit("changeMode", newMode) : null;
-	newMode == "writing" ? router.push("/writing") : router.push("/");
+	newMode == "writing" ? router.push({ path: "/writing" }) : router.push({ path: "/" });
 };
 
 const pesudoStyles = computed(() => {
