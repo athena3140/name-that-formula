@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+::-webkit-scrollbar {
+	width: 5px;
+	background: #ef4444;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #fff;
+	border-radius: 10px;
+}
+
+body {
+	font-family: "Poppins", sans-serif;
+	@apply bg-gradient-to-r from-purple-400 via-pink-500 to-red-500;
+}
+
+body::after {
+	content: "";
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -10;
+	--bg: #ffffff1c;
+	background: linear-gradient(45deg, transparent 49%, var(--bg) 49% 51%, transparent 51%),
+		linear-gradient(-45deg, transparent 49%, var(--bg) 49% 51%, transparent 51%);
+	background-size: 3em 3em;
+	background-color: transparent;
+}
+
+.title {
+	@apply md:text-2xl text-xl font-normal mt-5 mb-3;
+}
+
+.formula {
+	@apply md:text-5xl text-3xl font-bold;
+}
+.name {
+	@apply md:text-5xl text-3xl font-bold leading-snug;
+}
+
+.btn {
+	@apply inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium  h-10 px-4 flex-1 md:text-xl md:py-6;
+}
+
+.btn.submit {
+	@apply bg-zinc-900 text-white hover:bg-zinc-800;
+}
+
+.btn.skip {
+	@apply border border-gray-300;
+}
+
+.tab {
+	@apply p-2 flex justify-center text-gray-600 font-semibold gap-3 md:text-lg items-center cursor-pointer rounded w-full text-sm relative z-20 select-none;
+}
+
+.tab.active {
+	@apply text-black;
+}
+
+.label {
+	@apply block mb-2 md:text-xl  font-medium text-gray-900;
+}
+
+.input {
+	@apply flex h-10 w-full mx-auto rounded-md border border-zinc-400 p-6;
+}

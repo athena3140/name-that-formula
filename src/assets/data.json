@@ -1,0 +1,52 @@
+{
+	"positive": [
+		{ "name": "sodium", "symbol": "Na", "oxidationNumber": [1], "isMetal": true },
+		{ "name": "potassium", "symbol": "K", "oxidationNumber": [1], "isMetal": true },
+		{ "name": "calcium", "symbol": "Ca", "oxidationNumber": [2], "isMetal": true },
+		{ "name": "barium", "symbol": "Ba", "oxidationNumber": [2], "isMetal": true },
+		{ "name": "iron", "symbol": "Fe", "oxidationNumber": [2, 3], "isMetal": true },
+		{ "name": "tin", "symbol": "Sn", "oxidationNumber": [2, 4], "isMetal": true },
+		{ "name": "lead", "symbol": "Pb", "oxidationNumber": [2, 4], "isMetal": true },
+		{ "name": "copper", "symbol": "Cu", "oxidationNumber": [1, 2], "isMetal": true },
+		{ "name": "mercury", "symbol": "Hg", "oxidationNumber": [1, 2], "isMetal": true },
+		{ "name": "silver", "symbol": "Ag", "oxidationNumber": [1], "isMetal": true },
+		{ "name": "magnesium", "symbol": "Mg", "oxidationNumber": [2], "isMetal": true },
+		{ "name": "aluminium", "symbol": "Al", "oxidationNumber": [3], "isMetal": true },
+		{ "name": "manganese", "symbol": "Mn", "oxidationNumber": [2, 4, 7], "isMetal": true },
+		{ "name": "zinc", "symbol": "Zn", "oxidationNumber": [2], "isMetal": true },
+		{ "name": "ammonium", "symbol": "NH_4", "oxidationNumber": [1], "isMetal": true },
+
+		{ "name": "carbon", "symbol": "C", "oxidationNumber": [2, 4], "isMetal": false },
+		{ "name": "phosphorus", "symbol": "P", "oxidationNumber": [3, 5], "isMetal": false },
+		{ "name": "hydrogen", "symbol": "H", "oxidationNumber": [1], "isMetal": false },
+		{ "name": "sulphur", "symbol": "S", "oxidationNumber": [4, 6], "isMetal": false },
+		{ "name": "nitrogen", "symbol": "N", "oxidationNumber": [1, 2, 3, 4, 5], "isMetal": false }
+	],
+	"negative": [
+		{ "name": "fluorine", "symbol": "F", "oxidationNumber": [-1], "ideName": "fluoride" },
+		{ "name": "sulphur", "symbol": "S", "oxidationNumber": [-2], "ideName": "sulphide" },
+		{ "name": "oxygen", "symbol": "O", "oxidationNumber": [-2], "ideName": "oxide" },
+		{ "name": "nitrogen", "symbol": "N", "oxidationNumber": [-3], "ideName": "nitride" },
+		{ "name": "chlorine", "symbol": "Cl", "oxidationNumber": [-1], "ideName": "chloride" },
+		{ "name": "bromine", "symbol": "Br", "oxidationNumber": [-1], "ideName": "bromide" },
+		{ "name": "iodine", "symbol": "I", "oxidationNumber": [-1], "ideName": "iodide" },
+
+		{ "name": "chloride", "symbol": "Cl", "oxidationNumber": [-1], "isAcidRadical": true },
+		{ "name": "bromide", "symbol": "Br", "oxidationNumber": [-1], "isAcidRadical": true },
+		{ "name": "iodide", "symbol": "I", "oxidationNumber": [-1], "isAcidRadical": true },
+		{ "name": "nitrite", "symbol": "NO_2", "oxidationNumber": [-1], "isAcidRadical": true },
+		{ "name": "nitrate", "symbol": "NO_3", "oxidationNumber": [-1], "isAcidRadical": true },
+		{ "name": "chlorate", "symbol": "ClO_3", "oxidationNumber": [-1], "isAcidRadical": true },
+		{ "name": "hydrogen carbonate", "symbol": "HCO_3", "oxidationNumber": [-1], "isAcidRadical": true },
+		{ "name": "carbonate", "symbol": "CO_3", "oxidationNumber": [-2], "isAcidRadical": true },
+		{ "name": "hydrogen sulphite", "symbol": "HSO_3", "oxidationNumber": [-1], "isAcidRadical": true },
+		{ "name": "sulphite", "symbol": "SO_3", "oxidationNumber": [-2], "isAcidRadical": true },
+		{ "name": "hydrogen sulphate", "symbol": "HSO_4", "oxidationNumber": [-1], "isAcidRadical": true },
+		{ "name": "sulphate", "symbol": "SO_4", "oxidationNumber": [-2], "isAcidRadical": true },
+		{ "name": "dihydrogen phosphate", "symbol": "H_2PO_4", "oxidationNumber": [-1], "isAcidRadical": true },
+		{ "name": "hydrogen phosphate", "symbol": "HPO_4", "oxidationNumber": [-2], "isAcidRadical": true },
+		{ "name": "phosphate", "symbol": "PO_4", "oxidationNumber": [-3], "isAcidRadical": true },
+
+		{ "name": "hydroxide", "symbol": "OH", "oxidationNumber": [-1], "isHydroxide": true }
+	]
+}
