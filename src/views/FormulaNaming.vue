@@ -34,8 +34,6 @@ import { ref, computed } from "vue";
 import { useStore } from "vuex";
 
 const store = useStore();
-store.commit("changeMode", "naming");
-
 let formulaInfo = ref({ formula: "", name: "" }); // to access from template
 const isFirstTime = ref(true);
 const input = ref("");

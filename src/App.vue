@@ -39,29 +39,20 @@
 					<div
 						:style="pesudoStyles"
 						class="w-full mx-auto rounded bg-purple-100 p-2 flex justify-center tablist items-center gap-3 relative">
-						<RouterLink :to="'/'" class="tab" :class="{ active: currentMode == 'naming' }">
-							<BookA class="sm:block hidden w-5 h-5" :stroke-width="1.5" />
-							Formula Naming
-						</RouterLink>
-						<RouterLink :to="'/writing'" class="tab" :class="{ active: currentMode == 'writing' }">
-							<PencilIcon class="sm:block hidden h-5 w-5" />
-							Formula Writing
-						</RouterLink>
-						<!-- <div class="tab" :class="{ active: currentMode == 'naming' }" @click="changeMode('naming')">
+						<div class="tab" :class="{ active: currentMode == 'naming' }" @click="changeMode('naming')">
 							<BookA class="sm:block hidden w-5 h-5" :stroke-width="1.5" />
 							Formula Naming
 						</div>
 						<div class="tab" :class="{ active: currentMode == 'writing' }" @click="changeMode('writing')">
 							<PencilIcon class="sm:block hidden h-5 w-5" />
 							Formula Writing
-						</div> -->
+						</div>
 					</div>
-					<!-- <router-view v-slot="{ Component }">
+					<router-view v-slot="{ Component }">
 						<transition name="fade" mode="out-in">
 							<component :is="Component" />
 						</transition>
-					</router-view> -->
-					<router-view></router-view>
+					</router-view>
 				</div>
 			</div>
 		</div>
@@ -81,7 +72,6 @@ import formatGuide from "./components/formatGuide.vue";
 import alertView from "./components/alertView.vue";
 
 const store = useStore();
-
 const router = useRouter();
 const isFirstTime = ref(true);
 const currentMode = computed(() => store.state.currentMode);
@@ -107,10 +97,10 @@ const writingRules = [
 	{ correct: false, text: "Don't include charges or states" },
 ];
 
-// const changeMode = (newMode) => {
-// 	currentMode.value !== newMode ? store.commit("changeMode", newMode) : null;
-// 	newMode == "writing" ? router.push({ path: "/writing" }) : router.push({ path: "/" });
-// };
+const changeMode = (newMode) => {
+	currentMode.value !== newMode ? store.commit("changeMode", newMode) : null;
+	newMode == "writing" ? router.push("/writing") : router.push("/");
+};
 
 const pesudoStyles = computed(() => {
 	return {
