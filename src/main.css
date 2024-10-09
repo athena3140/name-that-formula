@@ -3,7 +3,7 @@
 
 ::-webkit-scrollbar {
 	width: 5px;
-	background: #ef4444;
+	background: #eb489a;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -13,6 +13,7 @@
 
 body {
 	font-family: "Poppins", sans-serif;
+	background-size: 200vw 200vw;
 	@apply bg-gradient-to-r from-purple-400 via-pink-500 to-red-500;
 }
 
@@ -29,6 +30,10 @@ body::after {
 		linear-gradient(-45deg, transparent 49%, var(--bg) 49% 51%, transparent 51%);
 	background-size: 3em 3em;
 	background-color: transparent;
+}
+
+.heading {
+	@apply text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600;
 }
 
 .title {

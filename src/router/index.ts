@@ -5,15 +5,19 @@ const routes: Array<RouteRecordRaw> = [
 		path: "/",
 		name: "naming",
 		component: () => import("../views/FormulaNaming.vue"),
+		meta: { layout: "default" },
 	},
 	{
 		path: "/writing",
 		name: "writing",
 		component: () => import("../views/FormulaWriting.vue"),
+		meta: { layout: "default" },
 	},
 	{
 		path: "/:pathMatch(.*)*",
-		redirect: "/",
+		name: "notFound",
+		component: () => import("../views/notFound.vue"),
+		meta: { layout: null },
 	},
 ];
 

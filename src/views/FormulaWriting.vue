@@ -49,7 +49,7 @@ const checkAnswer = () => {
 		store.commit("changeAlertStatus", {
 			isData: true,
 			isCorrect: false,
-			message: "Please enter the name of the compound.",
+			message: "Please enter the formula of the compound.",
 		});
 		return;
 	}
