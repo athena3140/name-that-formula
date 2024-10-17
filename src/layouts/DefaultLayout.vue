@@ -41,7 +41,13 @@
 				</div>
 			</div>
 		</div>
-		<footer class="mt-10 text-center text-white text-xs">
+		<router-link
+			to="/guide"
+			class="inline-flex my-10 items-center justify-center text-zinc-900 bg-white font-medium shadow-sm cursor-pointer h-8 rounded-md px-3 py-5 text-sm">
+			<BookOpenIcon class="mr-2 h-4 w-4" />
+			Need help? View Naming Guide
+		</router-link>
+		<footer class="text-center text-white text-xs">
 			<div>© {{ new Date().getFullYear() }} Chemistry Formula Quiz. Happy learning!</div>
 			<div>developed by <a href="https://github.com/athena3140" class="underline hover:no-underline">athena3140</a></div>
 		</footer>
@@ -52,7 +58,7 @@
 import { computed, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { TrophyIcon, PencilIcon, BookA } from "lucide-vue-next";
+import { TrophyIcon, PencilIcon, BookA, BookOpenIcon } from "lucide-vue-next";
 import formatGuide from "../components/formatGuide.vue";
 import alertView from "../components/alertView.vue";
 
