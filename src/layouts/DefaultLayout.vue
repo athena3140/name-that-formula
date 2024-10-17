@@ -1,13 +1,11 @@
 <template>
 	<div class="container w-full mx-auto lg:p-8 p-2 py-10 min-h-dvh flex items-center justify-center flex-col">
-		<div class="w-full shadow-2xl bg-white rounded p-5">
-			<div class="text-center">
-				<h1 class="heading md:text-5xl text-4xl mt-3 font-extrabold leading-normal">Chemistry Formula Quiz</h1>
-				<p class="md:text-xl text-sm md:my-4">Test your knowledge of chemical formulas!</p>
-				<div class="flex items-center justify-center space-x-4 md:text-xl text-base mt-2">
-					<TrophyIcon class="text-yellow-500 md:h-8 md:w-8 w-5 h-5" />
-					<span> Score: 0/0 </span>
-				</div>
+		<div class="w-full shadow-2xl bg-white rounded p-5 text-center">
+			<h1 class="heading mt-3 md:text-5xl text-4xl">Chemistry Formula Quiz</h1>
+			<p class="md:text-xl text-sm md:my-4">Test your knowledge of chemical formulas!</p>
+			<div class="flex items-center justify-center space-x-4 md:text-xl text-base mt-2">
+				<TrophyIcon class="text-yellow-500 md:h-8 md:w-8 w-5 h-5" />
+				<span> Score: 0/0 </span>
 			</div>
 			<div class="flex mt-10 justify-end lg:gap-10 flex-wrap lg:flex-nowrap min-h-fit">
 				<div class="lg:w-2/5 w-full lg:mt-0 mt-5 relative flex flex-col">

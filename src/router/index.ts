@@ -14,16 +14,31 @@ const routes: Array<RouteRecordRaw> = [
 		meta: { layout: "default" },
 	},
 	{
+		path: "/guide",
+		name: "guide",
+		component: () => import("../views/guideView.vue"),
+	},
+	{
 		path: "/:pathMatch(.*)*",
 		name: "notFound",
 		component: () => import("../views/notFound.vue"),
-		meta: { layout: null },
 	},
 ];
 
 const router = createRouter({
 	history: createWebHistory(process.env.BASE_URL),
 	routes,
+	scrollBehavior(to, from, savedPosition) {
+		if (savedPosition) {
+			return savedPosition;
+		}
+
+		if (to.path == "/guide" && to.hash != "") {
+			return { el: to.hash, behavior: "smooth" };
+		}
+
+		return { top: 0 };
+	},
 });
 
 export default router;

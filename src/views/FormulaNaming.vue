@@ -17,8 +17,8 @@
 			</div>
 
 			<div class="flex space-x-4">
-				<button class="btn submit" @click="checkAnswer()">Check Answer</button>
-				<button class="btn skip" @click="generate()">
+				<button class="btn submit" @click="checkAnswer()" :disabled="isDisabled">Check Answer</button>
+				<button class="btn skip" @click="generate()" :disabled="isDisabled">
 					<SkipForwardIcon class="mr-2 h-5 w-5" />
 					Skip Question
 				</button>
@@ -34,12 +34,15 @@ import { ref, computed } from "vue";
 import { useStore } from "vuex";
 
 const store = useStore();
+store.commit("changeMode", "naming");
 let formulaInfo = ref({ formula: "", name: "" }); // to access from template
 const isFirstTime = ref(true);
 const input = ref("");
 const currentData = computed(() => store.state.currentData.naming);
+const isDisabled = ref(false); // to add disabled after submit
 
 const checkAnswer = () => {
+	isDisabled.value = true;
 	const inputValue = input.value.trim().toLowerCase();
 	if (!inputValue) {
 		store.commit("changeAlertStatus", {
@@ -47,6 +50,9 @@ const checkAnswer = () => {
 			isCorrect: false,
 			message: "Please enter the name of the compound.",
 		});
+		setTimeout(() => {
+			isDisabled.value = false;
+		}, 3000);
 		return;
 	}
 
@@ -141,6 +147,7 @@ const regenerate = () => {
 	setTimeout(() => {
 		input.value = "";
 		generate();
+		isDisabled.value = false;
 	}, 3000);
 };
 </script>

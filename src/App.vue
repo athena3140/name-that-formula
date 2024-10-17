@@ -10,12 +10,12 @@
 <script setup>
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import DefaultLayout from "./layouts/DefaultLayout.vue";
+import DefaultLayout from "./layouts/DefaultLayout.vue"; // default layout for naming and writing modes.
 
 const route = useRoute();
 
 const layout = computed(() => {
-	if (route.meta.layout === "default") {
+	if (route.meta.layout == "default") {
 		return DefaultLayout;
 	} else {
 		return null;

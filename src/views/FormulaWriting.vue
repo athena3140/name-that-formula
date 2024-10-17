@@ -18,8 +18,8 @@
 			</div>
 
 			<div class="flex space-x-4">
-				<button class="btn submit" @click="checkAnswer()">Check Answer</button>
-				<button class="btn skip" type="button" @click="generate()">
+				<button class="btn submit" @click="checkAnswer()" :disabled="isDisabled">Check Answer</button>
+				<button class="btn skip" type="button" @click="generate()" :disabled="isDisabled">
 					<SkipForwardIcon class="mr-2 h-5 w-5" />
 					Skip Question
 				</button>
@@ -40,10 +40,12 @@ let formulaInfo = ref({ formula: "", name: "" }); // to access from template
 const isFirstTime = ref(true);
 const input = ref("");
 const currentData = computed(() => store.state.currentData.writing);
+const isDisabled = ref(false); // to add disabled after submit
 
 const checkAnswer = () => {
+	isDisabled.value = true;
 	const regex = /(\d)(?!\\_)/g;
-	const inputValue = input.value.trim().replace(regex, "_$1");
+	const inputValue = input.value.trim().replace(regex, "_$1"); // turn CO2 into CO_2
 
 	if (!inputValue) {
 		store.commit("changeAlertStatus", {
@@ -51,6 +53,9 @@ const checkAnswer = () => {
 			isCorrect: false,
 			message: "Please enter the formula of the compound.",
 		});
+		setTimeout(() => {
+			isDisabled.value = false;
+		}, 3000);
 		return;
 	}
 
@@ -67,9 +72,6 @@ const checkAnswer = () => {
 		});
 		regenerate(5000);
 	}
-
-	console.log("inputValue", inputValue);
-	console.log("formulaInfo.value.formula", formulaInfo.value.formula);
 };
 
 const formulaAnimation = () => {
@@ -127,6 +129,7 @@ const regenerate = (timeout = 3000) => {
 	setTimeout(() => {
 		input.value = "";
 		generate();
+		isDisabled.value = false;
 	}, timeout);
 };
 </script>
