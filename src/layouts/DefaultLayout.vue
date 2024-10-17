@@ -5,7 +5,26 @@
 			<p class="md:text-xl text-sm md:my-4">Test your knowledge of chemical formulas!</p>
 			<div class="flex items-center justify-center space-x-4 md:text-xl text-base mt-2">
 				<TrophyIcon class="text-yellow-500 md:h-8 md:w-8 w-5 h-5" />
-				<span> Score: 0/0 </span>
+				<div class="flex gap-3">
+					<div>Score:</div>
+					<div class="flex">
+						<div class="relative overflow-hidden" :class="currentCorrect > 99 ? 'md:w-10 w-8' : 'md:w-7 w-5'">
+							<transition name="number-up">
+								<div class="absolute left-1/2 -translate-x-1/2" :key="currentCorrect">
+									{{ currentCorrect }}
+								</div>
+							</transition>
+						</div>
+						/
+						<div class="relative overflow-hidden" :class="currentTotal > 99 ? 'md:w-10 w-8' : 'md:w-7 w-5'">
+							<transition name="number-up">
+								<div class="absolute left-1/2 -translate-x-1/2" :key="currentTotal">
+									{{ currentTotal }}
+								</div>
+							</transition>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="flex mt-10 justify-end lg:gap-10 flex-wrap lg:flex-nowrap min-h-fit">
 				<div class="lg:w-2/5 w-full lg:mt-0 mt-5 relative flex flex-col">
@@ -55,7 +74,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { TrophyIcon, PencilIcon, BookA, BookOpenIcon } from "lucide-vue-next";
@@ -66,6 +85,24 @@ const store = useStore();
 const router = useRouter();
 const isFirstTime = ref(true);
 const currentMode = computed(() => store.state.currentMode);
+const currentScore = computed(() => store.state.currentScore);
+
+const currentCorrect = ref(currentScore.value.correctAnswers);
+const currentTotal = ref(currentScore.value.totalQuestion);
+
+// Watch for changes in the score and update the values
+watch(
+	currentScore,
+	(newScore) => {
+		currentCorrect.value = newScore.correctAnswers;
+		currentTotal.value = newScore.totalQuestion;
+	},
+	{ immediate: true }
+);
+// watch(currentScore, () => {
+
+// })
+
 onMounted(() => {
 	setTimeout(() => {
 		isFirstTime.value = false;
@@ -102,6 +139,20 @@ const pesudoStyles = computed(() => {
 </script>
 
 <style scoped>
+.number-up-enter-active,
+.number-up-leave-active {
+	transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.number-up-enter-from {
+	@apply -translate-x-1/2 translate-y-6;
+}
+
+.number-up-leave-to {
+	@apply -translate-x-1/2 -translate-y-6;
+	opacity: 0;
+}
+
 footer {
 	animation: scroll linear;
 	animation-timeline: view();

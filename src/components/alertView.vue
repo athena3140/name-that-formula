@@ -28,7 +28,8 @@ const formatChemicalFormula = (formula) => {
 	grid-template-rows: 0fr;
 	padding: 0;
 	border-width: 0;
-	transition: all 0.5s ease;
+	transition: 0.5s ease;
+	transition-property: padding, border-width, grid-template-rows;
 }
 
 .alert > div {

@@ -4,6 +4,9 @@ export default createStore({
 	state: {
 		currentMode: "naming",
 		currentData: JSON.parse(localStorage.getItem("currentData") || "{}"),
+		currentScore: JSON.parse(
+			localStorage.getItem("currentScore") || '{"correctAnswers":0,"skippedQuestions":0,"totalQuestion":0}'
+		),
 		alertStatus: { isData: false, isCorrect: "", message: "" },
 	},
 	getters: {
@@ -32,6 +35,21 @@ export default createStore({
 			setTimeout(() => {
 				state.alertStatus.isData = false;
 			}, data.timeout);
+		},
+		updateScore(state, data) {
+			const currentScore = { ...state.currentScore };
+
+			if (data.isCorrect) {
+				currentScore.correctAnswers++;
+			}
+
+			if (data.isSkipped) {
+				currentScore.skippedQuestions++;
+			}
+
+			currentScore.totalQuestion++;
+			state.currentScore = currentScore;
+			localStorage.setItem("currentScore", JSON.stringify(currentScore));
 		},
 	},
 	actions: {},

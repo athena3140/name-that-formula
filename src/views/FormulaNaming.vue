@@ -18,7 +18,13 @@
 
 			<div class="flex space-x-4">
 				<button class="btn submit" @click="checkAnswer()" :disabled="isDisabled">Check Answer</button>
-				<button class="btn skip" @click="generate()" :disabled="isDisabled">
+				<button
+					class="btn skip"
+					@click="
+						generate();
+						store.commit('updateScore', { isSkipped: true });
+					"
+					:disabled="isDisabled">
 					<SkipForwardIcon class="mr-2 h-5 w-5" />
 					Skip Question
 				</button>
@@ -47,7 +53,6 @@ const checkAnswer = () => {
 	if (!inputValue) {
 		store.commit("changeAlertStatus", {
 			isData: true,
-			isCorrect: false,
 			message: "Please enter the name of the compound.",
 		});
 		setTimeout(() => {
@@ -58,6 +63,7 @@ const checkAnswer = () => {
 
 	if (inputValue === formulaInfo.value.name.toLowerCase()) {
 		store.commit("changeAlertStatus", { isData: true, isCorrect: true, message: "Correct!" });
+		store.commit("updateScore", { isCorrect: true });
 		regenerate();
 	} else {
 		store.commit("changeAlertStatus", {
@@ -65,6 +71,7 @@ const checkAnswer = () => {
 			isCorrect: false,
 			message: `Oops! That's not quite right. The correct answer is ${formulaInfo.value.name}.`,
 		});
+		store.commit("updateScore", { isCorrect: false });
 		regenerate();
 	}
 };

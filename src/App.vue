@@ -11,7 +11,6 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import DefaultLayout from "./layouts/DefaultLayout.vue"; // default layout for naming and writing modes.
-
 const route = useRoute();
 
 const layout = computed(() => {
