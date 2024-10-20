@@ -3,25 +3,54 @@
 		<div class="w-full shadow-2xl bg-white rounded p-5 text-center">
 			<h1 class="heading mt-3 md:text-5xl text-4xl">Chemistry Formula Quiz</h1>
 			<p class="md:text-xl text-sm md:my-4">Test your knowledge of chemical formulas!</p>
-			<div class="flex items-center justify-center space-x-4 md:text-xl text-base mt-2">
+
+			<div class="flex relative group w-fit mx-auto items-center justify-center gap-4 md:text-xl text-base mt-2">
 				<TrophyIcon class="text-yellow-500 md:h-8 md:w-8 w-5 h-5" />
-				<div class="flex gap-3">
+				<div class="flex gap-3 cursor-pointer select-none">
 					<div>Score:</div>
-					<div class="flex">
-						<div class="relative overflow-hidden" :class="currentCorrect > 99 ? 'md:w-10 w-8' : 'md:w-7 w-5'">
-							<transition name="number-up">
-								<div class="absolute left-1/2 -translate-x-1/2" :key="currentCorrect">
-									{{ currentCorrect }}
-								</div>
-							</transition>
+					<div class="flex font-mono">
+						<div class="relative overflow-hidden w-5">
+							<div v-for="(digit, index) in currentCorrect.toString()" :key="index" class="relative w-3">
+								<transition name="number-up">
+									<div class="absolute overflow-hidden left-1/2 -translate-x-1/2" :key="digit">
+										{{ digit }}
+									</div>
+								</transition>
+							</div>
 						</div>
 						/
-						<div class="relative overflow-hidden" :class="currentTotal > 99 ? 'md:w-10 w-8' : 'md:w-7 w-5'">
-							<transition name="number-up">
-								<div class="absolute left-1/2 -translate-x-1/2" :key="currentTotal">
-									{{ currentTotal }}
-								</div>
-							</transition>
+						<div class="relative flex items-start justify-center gap-[1px] overflow-hidden">
+							<div v-for="(digit, index) in currentTotal.toString()" :key="index" class="relative w-3">
+								<transition name="number-up">
+									<div class="absolute overflow-hidden left-1/2 -translate-x-1/2" :key="digit">
+										{{ digit }}
+									</div>
+								</transition>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div
+					class="absolute translate-x-1/2 right-1/2 transition-all ease-linear group-hover:top-10 top-12 group-hover:scale-100 scale-90 group-hover:opacity-100 opacity-0 group-hover:pointer-events-auto pointer-events-none z-50 p-4 inline-block w-64 text-sm text-gray-500 bg-white border border-gray-300 rounded-lg shadow-lg">
+					<h3 class="font-semibold mb-3">Quiz Progress</h3>
+					<div class="space-y-2">
+						<div class="flex justify-between">
+							<span>Correct</span>
+							<span>{{ currentScore.correctAnswers }}</span>
+						</div>
+						<div class="flex justify-between">
+							<span>Incorrect</span>
+							<span>{{
+								currentScore.totalQuestion - (currentScore.correctAnswers + currentScore.skippedQuestions)
+							}}</span>
+						</div>
+						<div class="flex justify-between">
+							<span>Skipped</span>
+							<span>{{ currentScore.skippedQuestions }}</span>
+						</div>
+						<div class="flex justify-between">
+							<span>Total</span>
+							<span>{{ currentScore.totalQuestion }}</span>
 						</div>
 					</div>
 				</div>
@@ -89,7 +118,6 @@ const currentScore = computed(() => store.state.currentScore);
 
 const currentCorrect = ref(currentScore.value.correctAnswers);
 const currentTotal = ref(currentScore.value.totalQuestion);
-
 // Watch for changes in the score and update the values
 watch(
 	currentScore,
