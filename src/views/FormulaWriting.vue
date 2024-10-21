@@ -7,15 +7,13 @@
 		<div class="space-y-6 mt-10">
 			<div>
 				<label for="input" class="label">Your Answer:</label>
-				<input
-					type="text"
-					id="input"
-					v-model="input"
-					@keyup.enter="checkAnswer"
-					placeholder="Enter the formula of the compound"
-					autocomplete="off"
-					class="input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus:ring-zinc-400 text-xlinput" />
+				<div class="border text-start border-1 border-zinc-400 px-6 md:text-lg text-base py-4 rounded-md">
+					<div v-if="input" v-html="format(input)"></div>
+					<div v-else class="text-gray-400">Enter the formula of the compound</div>
+				</div>
 			</div>
+
+			<onScreenKeyboard @keyClick="processKeyboardInput" @deleteClick="processDeleteInput" />
 
 			<div class="flex space-x-4">
 				<button class="btn submit" @click="checkAnswer()" :disabled="isDisabled">Check Answer</button>
@@ -40,6 +38,8 @@ import { ref, computed } from "vue";
 import { generateFormulaAndName, getRandomName } from "../utils/formulaHelper.js";
 import { SkipForwardIcon } from "lucide-vue-next";
 import { useStore } from "vuex";
+import onScreenKeyboard from "@/components/onScreenKeyboard.vue";
+
 const store = useStore();
 store.commit("changeMode", "writing");
 
@@ -51,8 +51,7 @@ const isDisabled = ref(false); // to add disabled after submit
 
 const checkAnswer = () => {
 	isDisabled.value = true;
-	const regex = /(\d)(?!\\_)/g;
-	const inputValue = input.value.trim().replace(regex, "_$1"); // turn CO2 into CO_2
+	const inputValue = input.value;
 
 	if (!inputValue) {
 		store.commit("changeAlertStatus", {
@@ -140,4 +139,23 @@ const regenerate = (timeout = 3000) => {
 		isDisabled.value = false;
 	}, timeout);
 };
+
+const processKeyboardInput = (key) => {
+	if (!isNaN(key)) {
+		input.value += `_${key}`;
+		return;
+	}
+	input.value += key;
+};
+
+const processDeleteInput = () => {
+	const lastChar = input.value.slice(-1);
+	const sliceAmount = !isNaN(lastChar) || !isUpperCase(lastChar) ? -2 : -1;
+	sliceString(sliceAmount);
+};
+
+
+const sliceString = (value) => (input.value = input.value.slice(0, value));
+const isUpperCase = (str) => str === str.toUpperCase();
+const format = (formula) => formula.replace(/_(\d+)/g, "<sub>$1</sub>");
 </script>
