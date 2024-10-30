@@ -27,7 +27,6 @@
 			</div>
 
 			<onScreenKeyboard @keyClick="processKeyboardInput" @deleteClick="processKeyboardInput('delete')" />
-
 			<div class="flex space-x-4">
 				<button class="btn submit" @click="checkAnswer()" :disabled="isDisabled">Check Answer</button>
 				<button
@@ -59,6 +58,7 @@ store.commit("changeMode", "writing");
 let formulaInfo = ref({ formula: "", name: "" }); // to access from template
 const isFirstTime = ref(true);
 const input = ref("");
+// const input = ref("Zn(H_2PO_4)_2");
 const currentData = computed(() => store.state.currentData.writing);
 const isDisabled = ref(false); // to add disabled after submit
 
@@ -173,6 +173,10 @@ const processKeyboardInput = (key) => {
 	let splitIndex = cursorIndex.value; // current cursor index
 	let element = inputArr ? inputArr[splitIndex] : ""; // current element in the array
 
+	// to add cursor at the end if the key has underscore e.g. NH_4
+	let count;
+	if (key.includes("_")) count = splitInput(key).length - 1 + cursorIndex.value;
+
 	// if the key is number add underscore for formation
 	if (!isNaN(key)) {
 		key = `_${key}`;
@@ -183,6 +187,7 @@ const processKeyboardInput = (key) => {
 		if (key == "delete") return; // if key is delete return nothing
 
 		input.value = key;
+		if (count) cursorIndex.value = count;
 		isRightSideCursor.value = true;
 		return;
 	}
@@ -206,9 +211,6 @@ const processKeyboardInput = (key) => {
 	inputArr[splitIndex] = isRightSideCursor.value ? element + key : key + element;
 	input.value = inputArr.join("");
 
-	let count;
-	if (key.includes("_")) count = splitInput(key).length - 1 + cursorIndex.value;
-
 	if (splitIndex == 0 && !isRightSideCursor.value) {
 		if (count) cursorIndex.value = count;
 		isRightSideCursor.value = true;
@@ -231,9 +233,14 @@ const moveCursor = (index, event) => {
 	isRightSideCursor.value = clickPosition > elementWidth / 2;
 
 	if (!isRightSideCursor.value) {
-		if (index != 0) index--;
+		if (index != 0) {
+			index--;
+			isRightSideCursor.value = true;
+		}
 	}
 
+	// console.log(index);
+	// console.log(splitInput(input.value)[index]);
 	cursorIndex.value = index;
 };
 
@@ -247,15 +254,22 @@ const diaplayFormat = (text) => (/^_\d+$/.test(text) ? `<sub>${text.slice(1)}</s
 
 .cursor-active::after {
 	content: "";
-	@apply absolute top-0 h-5 w-[1px] animate-blink bg-red-500;
+	@apply absolute top-0 h-full w-[1px] animate-blink bg-red-500;
+}
+
+.cursor-active:last-child::after {
+	@apply ms-[1px];
+}
+.cursor-active:first-child::after {
+	@apply me-[1px];
 }
 
 .cursor-left.cursor-active:after {
-	@apply left-0;
+	@apply right-full;
 }
 
 .cursor-right.cursor-active:after {
-	@apply right-0;
+	@apply left-full;
 }
 
 .animate-blink {
