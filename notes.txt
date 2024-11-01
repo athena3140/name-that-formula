@@ -1,3 +1,3 @@
 todo :
 
-	
+	hide arrow when click in guide page.

@@ -65,15 +65,31 @@
 			</div>
 			<div class="flex mt-10 justify-end lg:gap-10 flex-wrap lg:flex-nowrap min-h-fit">
 				<div class="lg:w-2/5 w-full lg:mt-0 mt-5 relative flex flex-col">
-					<div class="xl:min-h-60 xl:mb-10 lg:min-h-[292px] lg:mb-10 relative">
-						<transition name="fade" class="lg:absolute static top-0 w-full lg:mt-0 mt-5">
+					<div class="relative" :style="{ height: alertViewHeight }">
+						<transition name="fade" class="lg:absolute static top-0 w-full">
 							<formatGuide
+								id="formatGuide"
 								:key="store.state.currentMode"
 								:mode="store.state.currentMode"
 								:rules="store.state.currentMode == 'naming' ? namingRules : writingRules" />
 						</transition>
 					</div>
-					<alertView />
+
+					<div
+						class="rounded-lg text-start border bg-card text-card-foreground shadow-sm bg-gradient-to-r from-pink-50 to-purple-50 p-4 mt-6">
+						<div class="flex items-start gap-3">
+							<div class="bg-pink-100 rounded-full p-2">
+								<Lightbulb class="lucide lucide-lightbulb w-5 h-5 text-pink-600" />
+							</div>
+							<div>
+								<h3 class="font-semibold text-base text-pink-700 mb-1">Did you know ?</h3>
+								<p class="text-sm text-pink-600/90">
+									You can make <span class="font-medium">576</span> binary compounds with just Grade 10
+									elements!
+								</p>
+							</div>
+						</div>
+					</div>
 				</div>
 
 				<div class="lg:w-3/5 w-full order-first lg:order-2 h-fit">
@@ -97,6 +113,7 @@
 				</div>
 			</div>
 		</div>
+		<alertView />
 		<router-link
 			to="/guide"
 			class="inline-flex my-10 items-center justify-center text-zinc-900 bg-white font-medium shadow-sm cursor-pointer h-8 rounded-md px-3 py-5 text-sm">
@@ -114,7 +131,7 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { TrophyIcon, PencilIcon, BookA, BookOpenIcon } from "lucide-vue-next";
+import { TrophyIcon, PencilIcon, BookA, BookOpenIcon, Lightbulb } from "lucide-vue-next";
 import formatGuide from "../components/formatGuide.vue";
 import alertView from "../components/alertView.vue";
 
@@ -122,6 +139,7 @@ const store = useStore();
 const router = useRouter();
 const isFirstTime = ref(true);
 const currentMode = computed(() => store.state.currentMode);
+const alertViewHeight = ref("");
 
 const currentScore = computed(() => store.state.currentScore);
 const currentCorrect = ref(currentScore.value.correctAnswers);
@@ -152,10 +170,16 @@ const calculatePercentage = (value) => {
 };
 
 onMounted(() => {
+	changeHeight();
+	window.addEventListener("resize", changeHeight);
 	setTimeout(() => {
 		isFirstTime.value = false;
 	}, 150);
 });
+
+const changeHeight = () => {
+	alertViewHeight.value = `${document.getElementById("formatGuide").offsetHeight}px`;
+};
 
 const namingRules = [
 	{ correct: true, text: "Capitalization doesn't matter (e.g., 'carbon dioxide')." },

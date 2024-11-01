@@ -7,7 +7,9 @@
 		<div class="space-y-6 mt-10">
 			<div>
 				<label for="input" class="label">Your Answer:</label>
-				<div class="border text-start border-1 border-zinc-400 px-6 md:text-lg text-base py-4 rounded-md">
+				<div
+					tabindex="0"
+					class="border group text-start border-1 border-zinc-400 px-6 md:text-lg text-base py-4 rounded-md relative">
 					<!-- {{ input }} <br />
 					{{ splitInput(input) }} -->
 					<div v-if="input" class="flex items-center tracking-wide">
@@ -22,7 +24,13 @@
 							}"
 							@click="(event) => moveCursor(index, event)"></div>
 					</div>
-					<div v-else class="text-gray-400">Enter the formula of the compound</div>
+					<template v-else>
+						<div class="text-gray-400 group-focus:opacity-0 select-none cursor-text">
+							Enter the formula of the compound
+						</div>
+						<div
+							class="cursor-left cursor-active opacity-0 group-focus:opacity-100 w-2 !h-[calc(100%-2rem)] !absolute top-4 left-6"></div>
+					</template>
 				</div>
 			</div>
 
