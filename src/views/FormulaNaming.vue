@@ -52,7 +52,6 @@ const checkAnswer = () => {
 	const inputValue = input.value.trim().toLowerCase();
 	if (!inputValue) {
 		store.commit("changeAlertStatus", {
-			isData: true,
 			message: "Please enter the name of the compound.",
 		});
 		setTimeout(() => {
@@ -62,12 +61,11 @@ const checkAnswer = () => {
 	}
 
 	if (inputValue === formulaInfo.value.name.toLowerCase()) {
-		store.commit("changeAlertStatus", { isData: true, isCorrect: true, message: "Correct!" });
+		store.commit("changeAlertStatus", { isCorrect: true, message: "Correct!" });
 		store.commit("updateScore", { isCorrect: true });
 		regenerate();
 	} else {
 		store.commit("changeAlertStatus", {
-			isData: true,
 			isCorrect: false,
 			message: `Oops! That's not quite right. The correct answer is ${formulaInfo.value.name}.`,
 		});

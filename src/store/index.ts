@@ -30,11 +30,6 @@ export default createStore({
 		},
 		changeAlertStatus: (state, data) => {
 			state.alertStatus = data;
-			!data.timeout ? (data.timeout = 3000) : null;
-
-			setTimeout(() => {
-				state.alertStatus.isData = false;
-			}, data.timeout);
 		},
 		updateScore(state, data) {
 			const currentScore = { ...state.currentScore };
