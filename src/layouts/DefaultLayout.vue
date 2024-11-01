@@ -9,8 +9,11 @@
 				<div class="flex gap-3 cursor-pointer select-none">
 					<div>Score:</div>
 					<div class="flex font-mono">
-						<div class="relative overflow-hidden w-5">
-							<div v-for="(digit, index) in currentCorrect.toString()" :key="index" class="relative w-3">
+						<div class="relative overflow-hidden flex items-start justify-center">
+							<div
+								v-for="(digit, index) in currentCorrect.toString()"
+								:key="index"
+								class="relative w-[10px]">
 								<transition name="number-up">
 									<div class="absolute overflow-hidden left-1/2 -translate-x-1/2" :key="digit">
 										{{ digit }}
@@ -19,8 +22,8 @@
 							</div>
 						</div>
 						/
-						<div class="relative flex items-start justify-center gap-[1px] overflow-hidden">
-							<div v-for="(digit, index) in currentTotal.toString()" :key="index" class="relative w-3">
+						<div class="relative flex items-start justify-center overflow-hidden">
+							<div v-for="(digit, index) in currentTotal.toString()" :key="index" class="relative w-[10px]">
 								<transition name="number-up">
 									<div class="absolute overflow-hidden left-1/2 -translate-x-1/2" :key="digit">
 										{{ digit }}
@@ -42,7 +45,7 @@
 							<span>Incorrect</span>
 							<span>{{ incorrectAnswers }}</span>
 						</div>
-						<div class="flex justify-between text-gray-500">
+						<div class="flex justify-between text-purple-500">
 							<span>Skipped</span>
 							<span>{{ currentScore.skippedQuestions }}</span>
 						</div>
@@ -57,7 +60,7 @@
 					class="absolute w-full h-[3px] -bottom-2 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 right-0 flex">
 					<div class="w-full h-full bg-green-500" :style="{ width: correctPercentage + '%' }"></div>
 					<div class="w-full h-full bg-red-500" :style="{ width: incorrectPercentage + '%' }"></div>
-					<div class="w-full h-full bg-gray-500" :style="{ width: skippedPercentage + '%' }"></div>
+					<div class="w-full h-full bg-purple-500" :style="{ width: skippedPercentage + '%' }"></div>
 				</div>
 			</div>
 			<div class="flex mt-10 justify-end lg:gap-10 flex-wrap lg:flex-nowrap min-h-fit">
