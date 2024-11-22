@@ -23,31 +23,31 @@
 <script setup>
 // eslint-disable-next-line no-undef
 const props = defineProps({
-	data: Array,
+	data: Object,
 	rules: Array,
-});
+})
 
 const formatData = (field, data) => {
 	if (field == "formula" || field == "elements" || field == "acidRadical") {
-		data = data.replace(/_(\d+)/g, "<sub>$1</sub>");
-		data = data.replace(/(\d*)([+-]*)$/, "<sup>$1$2</sup>");
-		data = data.replace(/<sup><\/sup>/g, "");
-		return data;
+		data = data.replace(/_(\d+)/g, "<sub>$1</sub>")
+		data = data.replace(/(\d*)([+-]*)$/, "<sup>$1$2</sup>")
+		data = data.replace(/<sup><\/sup>/g, "")
+		return data
 	}
 
 	if (field == "charges") {
-		return data.replace(/([A-Z][a-z]*)(\d+[\\+-])/g, (_, e, c) => `${e}<sup>${c}</sup>`);
+		return data.replace(/([A-Z][a-z]*)(\d+[\\+-])/g, (_, e, c) => `${e}<sup>${c}</sup>`)
 	}
 	if (field == "oxidationNumber") {
-		return data.replace(/([A-Za-z]+)\s*((\+|-)\d+(,\s*(\+|-)\d+)*)/g, "$1<sup>$2</sup>");
+		return data.replace(/([A-Za-z]+)\s*((\+|-)\d+(,\s*(\+|-)\d+)*)/g, "$1<sup>$2</sup>")
 	}
 
 	if (field == "latin" || field == "english") {
-		return data.replace(/_([A-Za-z]+)_/g, "<u>$1</u>");
+		return data.replace(/_([A-Za-z]+)_/g, "<u>$1</u>")
 	}
 
-	return data;
-};
+	return data
+}
 </script>
 
 <style>

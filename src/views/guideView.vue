@@ -459,7 +459,7 @@
 		</footer>
 
 		<div
-			@click="scrollToElement(scrollBackElement)"
+			@click="scrollToElement(scrollBackElement, (isToHide = true))"
 			class="mr-2 h-9 w-9 fixed bottom-0 right-0 cursor-pointer text-slate-800 transition-all cursor hover:text-gray-950"
 			:class="scrollBackElement ? 'opacity-100 bottom-4 right-4 scale-100' : 'opacity-0 bottom-0 right-4 scale-50'">
 			<CircleArrowUp v-if="isUp" class="w-full h-full text-inherit" />
@@ -469,50 +469,55 @@
 </template>
 
 <script setup>
-import { Biohazard, NotebookPen, FlaskConical, CircleArrowUp, CircleArrowDown } from "lucide-vue-next";
-import TableView from "@/components/TableView.vue";
-import { onMounted, ref } from "vue";
-import $ from "jquery";
+import { Biohazard, NotebookPen, FlaskConical, CircleArrowUp, CircleArrowDown } from "lucide-vue-next"
+import TableView from "@/components/TableView.vue"
+import { onMounted, ref } from "vue"
+import $ from "jquery"
 
-const scrollBackElement = ref("");
-const isUp = ref(true);
+const scrollBackElement = ref("")
+const isUp = ref(true)
 
 onMounted(() => {
 	$(".link[to]").click((e) => {
-		scrollBackElement.value = e.currentTarget;
-		setTimeout(() => {
-			scrollBackElement.value = "";
-		}, 10000);
+		scrollBackElement.value = e.currentTarget
 
-		const element = `#${e.target.getAttribute("to")}`;
-		$(element).addClass("activeBox");
-		scrollToElement(element);
+		setTimeout(() => {
+			scrollBackElement.value = ""
+		}, 10000)
+
+		const element = `#${e.target.getAttribute("to")}`
+		$(element).addClass("activeBox")
+		scrollToElement(element)
 
 		if ($(e.currentTarget).offset().top > $(element).offset().top) {
-			isUp.value = false;
+			isUp.value = false
 		} else {
-			isUp.value = true;
+			isUp.value = true
 		}
 
 		setTimeout(() => {
-			$(element).addClass("active");
+			$(element).addClass("active")
 			setTimeout(() => {
-				$(element).removeClass("active");
-			}, 2000);
-		}, 500);
+				$(element).removeClass("active")
+			}, 2000)
+		}, 500)
 
-		history.pushState(null, "", `${element}`);
-	});
-});
+		history.pushState(null, "", `${element}`)
+	})
+})
 
-const scrollToElement = (element) => {
+const scrollToElement = (element, isToHide) => {
+	if (isToHide) {
+		scrollBackElement.value = ""
+	}
+
 	$("html,body").animate(
 		{
 			scrollTop: $(element).offset().top - 200,
 		},
 		500
-	);
-};
+	)
+}
 
 const formulaWritingTable = {
 	head: ["Elements", "Charges", "Formula"],
@@ -522,7 +527,7 @@ const formulaWritingTable = {
 		{ elements: "Mg & Cl", charges: "Mg2+ + Cl1-", formula: "MgCl_2" },
 		{ elements: "Al & O", charges: "Al3+ + O2-", formula: "Al_2O_3" },
 	],
-};
+}
 const firstNamingModeTable = {
 	head: ["formula", "Name"],
 	body: [
@@ -531,7 +536,7 @@ const firstNamingModeTable = {
 		{ formula: "BaCl_2", name: "barium chloride" },
 		{ formula: "AlN", name: "aluminium nitride" },
 	],
-};
+}
 const secondNamingModeTable = {
 	exampleTable: {
 		head: ["formula", "Name"],
@@ -544,7 +549,7 @@ const secondNamingModeTable = {
 		],
 	},
 	prefixes: ["mono-", "di-", "tri-", "tetra-", "penta-", "hexa-", "hepta-", "octa-", "nona-", "deca-"],
-};
+}
 const thirdNamingMode = {
 	exampleTable: {
 		head: ["formula", "Name"],
@@ -558,7 +563,7 @@ const thirdNamingMode = {
 		],
 	},
 	romanNumeral: ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"],
-};
+}
 
 const saltFormulaWritingTable = {
 	head: ["Metal (or) Ammonium", "Acid Radical", "Formula"],
@@ -576,7 +581,7 @@ const saltFormulaWritingTable = {
 			formula: "(NH_4)_2SO_4",
 		},
 	],
-};
+}
 
 const saltFirstNamingModeTable = {
 	head: ["formula", "Name"],
@@ -585,7 +590,7 @@ const saltFirstNamingModeTable = {
 		{ formula: "K_2CO_3", name: "potassium carbonate" },
 		{ formula: "Ca(ClO_3)_2", name: "calcium chlorate" },
 	],
-};
+}
 
 const saltSecondNamingModeTable = {
 	head: ["formula", "Name"],
@@ -594,7 +599,7 @@ const saltSecondNamingModeTable = {
 		{ formula: "Sn(ClO_3)_4", name: "tin(IV) chlorate" },
 		{ formula: "Cu(ClO_3)_2", name: "copper(II) chlorate" },
 	],
-};
+}
 
 const hydroxideFormulaWritingTable = {
 	head: ["Metal (or) Ammonium", "Hydroxide Radical", "Formula"],
@@ -604,7 +609,7 @@ const hydroxideFormulaWritingTable = {
 		{ elements: "Ca & OH", data: "Ca<sup>2+</sup> + OH<sup>-</sup> + OH<sup>-</sup>", formula: "Ca(OH)_2" },
 		{ elements: "NH_4 & OH", data: "NH<sub>4</sub><sup>+</sup> + OH<sup>-</sup>", formula: "NH_4OH" },
 	],
-};
+}
 
 const hydroxideFirstNamingModeTable = {
 	head: ["formula", "Name"],
@@ -613,7 +618,7 @@ const hydroxideFirstNamingModeTable = {
 		{ formula: "Al(OH)_3", name: "aluminium hydroxide" },
 		{ formula: "Zn(OH)_2", name: "zinc hydroxide" },
 	],
-};
+}
 
 const hydroxideSecondNamingModeTable = {
 	head: ["formula", "Name"],
@@ -622,7 +627,7 @@ const hydroxideSecondNamingModeTable = {
 		{ formula: "HgOH", name: "mercury(I) hydroxide" },
 		{ formula: "Mn(OH)_2", name: "manganese(II) hydroxide" },
 	],
-};
+}
 
 const metallicElementsTable = {
 	firstPart: {
@@ -654,7 +659,7 @@ const metallicElementsTable = {
 			{ english: "_P_la_t_inum", symbol: "Pt" },
 		],
 	},
-};
+}
 
 const nonMetallicElementsTable = {
 	head: ["English Name", "Symbol"],
@@ -669,7 +674,7 @@ const nonMetallicElementsTable = {
 		{ english: "_Br_omine", symbol: "Br" },
 		{ english: "_I_odine", symbol: "I" },
 	],
-};
+}
 
 const oxidationNumbersTable = {
 	firstPart: {
@@ -709,7 +714,7 @@ const oxidationNumbersTable = {
 			{ element: "Hydroxide", oxidationNumber: "OH<sup>+1</sup>" },
 		],
 	},
-};
+}
 
 const acidRadicals = {
 	head: ["Acid Radical", "Oxidation number"],
@@ -730,7 +735,7 @@ const acidRadicals = {
 		{ name: "hydrogen phosphate", acidRadical: "HPO_4 2-" },
 		{ name: "phosphate", acidRadical: "PO_4 3-" },
 	],
-};
+}
 </script>
 
 <style scoped>
