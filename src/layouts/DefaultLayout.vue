@@ -4,7 +4,7 @@
 			<h1 class="heading mt-3 md:text-5xl text-4xl">Chemistry Formula Quiz</h1>
 			<p class="md:text-xl text-sm md:my-4">Test your knowledge of chemical formulas!</p>
 
-			<div class="flex relative group w-fit mx-auto items-center justify-center gap-4 md:text-xl text-base mt-2">
+			<div class="flex relative group w-fit mx-auto items-center justify-center gap-4 pb-2 md:text-xl text-base mt-2">
 				<TrophyIcon class="text-yellow-500 md:h-8 md:w-8 w-5 h-5" />
 				<div class="flex gap-3 cursor-pointer select-none">
 					<div>Score:</div>
@@ -34,30 +34,32 @@
 					</div>
 				</div>
 				<div
-					class="absolute translate-x-1/2 right-1/2 transition-all ease-linear group-hover:top-10 top-12 group-hover:scale-100 scale-90 group-hover:opacity-100 opacity-0 group-hover:pointer-events-auto pointer-events-none z-50 p-4 inline-block w-64 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg shadow-lg">
-					<h3 class="font-semibold mb-3">Quiz Progress</h3>
-					<div class="space-y-2">
-						<div class="flex justify-between text-green-500">
-							<span>Correct</span>
-							<span>{{ currentScore.correctAnswers }}</span>
-						</div>
-						<div class="flex justify-between text-red-500">
-							<span>Incorrect</span>
-							<span>{{ incorrectAnswers }}</span>
-						</div>
-						<div class="flex justify-between text-purple-500">
-							<span>Skipped</span>
-							<span>{{ currentScore.skippedQuestions }}</span>
-						</div>
-						<hr />
-						<div class="flex justify-between text-black">
-							<span>Total</span>
-							<span>{{ currentScore.totalQuestion }}</span>
+					class="pt-5 inline-block w-64 absolute translate-x-1/2 right-1/2 transition-all ease-linear group-hover:top-8 top-12 group-hover:scale-100 scale-90 group-hover:opacity-100 opacity-0 group-hover:pointer-events-auto pointer-events-none z-50">
+					<div class="p-4 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg shadow-lg">
+						<h3 class="font-semibold mb-3">Quiz Progress</h3>
+						<div class="space-y-2">
+							<div class="flex justify-between text-green-500">
+								<span>Correct</span>
+								<span>{{ currentScore.correctAnswers }}</span>
+							</div>
+							<div class="flex justify-between text-red-500">
+								<span>Incorrect</span>
+								<span>{{ incorrectAnswers }}</span>
+							</div>
+							<div class="flex justify-between text-purple-500">
+								<span>Skipped</span>
+								<span>{{ currentScore.skippedQuestions }}</span>
+							</div>
+							<hr />
+							<div class="flex justify-between text-black">
+								<span>Total</span>
+								<span>{{ currentScore.totalQuestion }}</span>
+							</div>
 						</div>
 					</div>
 				</div>
 				<div
-					class="absolute w-full h-[3px] -bottom-2 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 right-0 flex">
+					class="absolute w-full h-[3px] bottom-0 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 right-0 flex">
 					<div class="w-full h-full bg-green-500" :style="{ width: correctPercentage + '%' }"></div>
 					<div class="w-full h-full bg-red-500" :style="{ width: incorrectPercentage + '%' }"></div>
 					<div class="w-full h-full bg-purple-500" :style="{ width: skippedPercentage + '%' }"></div>
@@ -128,58 +130,58 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from "vue";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-import { TrophyIcon, PencilIcon, BookA, BookOpenIcon, Lightbulb } from "lucide-vue-next";
-import formatGuide from "../components/formatGuide.vue";
-import alertView from "../components/alertView.vue";
+import { computed, onMounted, ref, watch } from "vue"
+import { useRouter } from "vue-router"
+import { useStore } from "vuex"
+import { TrophyIcon, PencilIcon, BookA, BookOpenIcon, Lightbulb } from "lucide-vue-next"
+import formatGuide from "../components/formatGuide.vue"
+import alertView from "../components/alertView.vue"
 
-const store = useStore();
-const router = useRouter();
-const isFirstTime = ref(true);
-const currentMode = computed(() => store.state.currentMode);
-const alertViewHeight = ref("");
+const store = useStore()
+const router = useRouter()
+const isFirstTime = ref(true)
+const currentMode = computed(() => store.state.currentMode)
+const alertViewHeight = ref("")
 
-const currentScore = computed(() => store.state.currentScore);
-const currentCorrect = ref(currentScore.value.correctAnswers);
-const currentTotal = ref(currentScore.value.totalQuestion);
+const currentScore = computed(() => store.state.currentScore)
+const currentCorrect = ref(currentScore.value.correctAnswers)
+const currentTotal = ref(currentScore.value.totalQuestion)
 const incorrectAnswers = ref(
 	currentScore.value.totalQuestion - (currentScore.value.correctAnswers + currentScore.value.skippedQuestions)
-);
+)
 
 // Watch for changes in the score and update the values
 watch(
 	currentScore,
 	(newScore) => {
-		currentCorrect.value = newScore.correctAnswers;
-		currentTotal.value = newScore.totalQuestion;
+		currentCorrect.value = newScore.correctAnswers
+		currentTotal.value = newScore.totalQuestion
 		incorrectAnswers.value =
-			currentScore.value.totalQuestion - (currentScore.value.correctAnswers + currentScore.value.skippedQuestions);
+			currentScore.value.totalQuestion - (currentScore.value.correctAnswers + currentScore.value.skippedQuestions)
 	},
 	{ immediate: true }
-);
+)
 
-const correctPercentage = computed(() => calculatePercentage(currentScore.value.correctAnswers));
-const incorrectPercentage = computed(() => calculatePercentage(incorrectAnswers.value));
-const skippedPercentage = computed(() => calculatePercentage(currentScore.value.skippedQuestions));
+const correctPercentage = computed(() => calculatePercentage(currentScore.value.correctAnswers))
+const incorrectPercentage = computed(() => calculatePercentage(incorrectAnswers.value))
+const skippedPercentage = computed(() => calculatePercentage(currentScore.value.skippedQuestions))
 
 const calculatePercentage = (value) => {
-	if (value === 0) return 0;
-	return (value / currentScore.value.totalQuestion) * 100;
-};
+	if (value === 0) return 0
+	return (value / currentScore.value.totalQuestion) * 100
+}
 
 onMounted(() => {
-	changeHeight();
-	window.addEventListener("resize", changeHeight);
+	changeHeight()
+	window.addEventListener("resize", changeHeight)
 	setTimeout(() => {
-		isFirstTime.value = false;
-	}, 150);
-});
+		isFirstTime.value = false
+	}, 150)
+})
 
 const changeHeight = () => {
-	alertViewHeight.value = `${document.getElementById("formatGuide").offsetHeight}px`;
-};
+	alertViewHeight.value = `${document.getElementById("formatGuide").offsetHeight}px`
+}
 
 const namingRules = [
 	{ correct: true, text: "Capitalization doesn't matter (e.g., 'carbon dioxide')." },
@@ -187,7 +189,7 @@ const namingRules = [
 	{ correct: true, text: "Use spaces for multi-word names" },
 	{ correct: false, text: "Don't use chemical symbols or formulas" },
 	{ correct: false, text: "Don't include charges or states" },
-];
+]
 
 const writingRules = [
 	{ correct: true, text: "Use correct element symbols (e.g., 'H' for Hydrogen)" },
@@ -195,19 +197,19 @@ const writingRules = [
 	{ correct: true, text: "Capitalize correctly (e.g., 'CO2' not 'Co2')" },
 	{ correct: false, text: "Don't use spelled-out element names" },
 	{ correct: false, text: "Don't include charges or states" },
-];
+]
 
 const changeMode = (newMode) => {
-	currentMode.value !== newMode ? store.commit("changeMode", newMode) : null;
-	newMode == "writing" ? router.push("/writing") : router.push("/");
-};
+	currentMode.value !== newMode ? store.commit("changeMode", newMode) : null
+	newMode == "writing" ? router.push("/writing") : router.push("/")
+}
 
 const pesudoStyles = computed(() => {
 	return {
 		"--translate-X": currentMode.value == "naming" ? "calc(-100% - 1rem)" : "0%",
 		"--transition": isFirstTime.value ? "0" : "150ms",
-	};
-});
+	}
+})
 </script>
 
 <style scoped>

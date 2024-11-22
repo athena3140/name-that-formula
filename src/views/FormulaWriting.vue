@@ -40,10 +40,7 @@
 				<button
 					class="btn skip"
 					type="button"
-					@click="
-						generate();
-						store.commit('updateScore', { isSkipped: true });
-					"
+					@click=";[generate(), store.commit('updateScore', { isSkipped: true })]"
 					:disabled="isDisabled">
 					<SkipForwardIcon class="mr-2 h-5 w-5" />
 					Skip Question
@@ -54,110 +51,120 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { generateFormulaAndName, getRandomName } from "../utils/formulaHelper.js";
-import { SkipForwardIcon } from "lucide-vue-next";
-import { useStore } from "vuex";
-import onScreenKeyboard from "@/components/onScreenKeyboard.vue";
+import { ref, computed, onMounted } from "vue"
+import { generateFormulaAndName, getRandomName } from "../utils/formulaHelper.js"
+import { SkipForwardIcon } from "lucide-vue-next"
+import { useStore } from "vuex"
+import onScreenKeyboard from "@/components/onScreenKeyboard.vue"
 
-const store = useStore();
-store.commit("changeMode", "writing");
+const store = useStore()
+store.commit("changeMode", "writing")
 
-let formulaInfo = ref({ formula: "", name: "" }); // to access from template
-const isFirstTime = ref(true);
-const input = ref("");
+let formulaInfo = ref({ formula: "", name: "" }) // to access from template
+const isFirstTime = ref(true)
+const input = ref("")
 // const input = ref("Zn(H_2PO_4)_2");
-const currentData = computed(() => store.state.currentData.writing);
-const isDisabled = ref(false); // to add disabled after submit
+const currentData = computed(() => store.state.currentData.writing)
+const isDisabled = ref(false) // to add disabled after submit
+
+onMounted(() => {
+	document.addEventListener("keydown", (e) => {
+		const isNumber = /^[0-9]$/i.test(e.key)
+		isNumber && processKeyboardInput(e.key)
+
+		e.key === "Enter" && checkAnswer()
+		e.key === "Backspace" && processKeyboardInput("delete")
+	})
+})
 
 const checkAnswer = () => {
-	isDisabled.value = true;
-	const inputValue = input.value;
+	isDisabled.value = true
+	const inputValue = input.value
 
 	if (!inputValue) {
 		store.commit("changeAlertStatus", {
 			message: "Please enter the formula of the compound.",
-		});
+		})
 		setTimeout(() => {
-			isDisabled.value = false;
-		}, 3000);
-		return;
+			isDisabled.value = false
+		}, 3000)
+		return
 	}
 
 	if (inputValue === formulaInfo.value.formula) {
-		store.commit("changeAlertStatus", { isCorrect: true, message: "Correct!" });
-		store.commit("updateScore", { isCorrect: true });
-		regenerate();
+		store.commit("changeAlertStatus", { isCorrect: true, message: "Correct!" })
+		store.commit("updateScore", { isCorrect: true })
+		regenerate()
 	} else {
 		store.commit("changeAlertStatus", {
 			isCorrect: false,
 			message: `Oops! That's not quite right. The correct answer is ${formulaInfo.value.formula}.`,
 			isFormula: true,
 			duration: 5000,
-		});
-		store.commit("updateScore", { isCorrect: false });
-		regenerate(5000);
+		})
+		store.commit("updateScore", { isCorrect: false })
+		regenerate(5000)
 	}
-};
+}
 
 const formulaAnimation = () => {
-	const originalName = formulaInfo.value.name;
-	let counter = 0;
-	const maxIterations = 6;
-	let startTime = null;
+	const originalName = formulaInfo.value.name
+	let counter = 0
+	const maxIterations = 6
+	let startTime = null
 
 	const animate = (timestamp) => {
-		if (!startTime) startTime = timestamp;
-		const progress = timestamp - startTime;
+		if (!startTime) startTime = timestamp
+		const progress = timestamp - startTime
 
 		if (counter < maxIterations) {
-			formulaInfo.value.name = getRandomName();
+			formulaInfo.value.name = getRandomName()
 
-			counter = Math.floor(progress / 50);
+			counter = Math.floor(progress / 50)
 
-			requestAnimationFrame(animate);
+			requestAnimationFrame(animate)
 		} else {
-			formulaInfo.value.name = originalName;
+			formulaInfo.value.name = originalName
 		}
-	};
+	}
 
-	requestAnimationFrame(animate);
-};
+	requestAnimationFrame(animate)
+}
 
 const setFormulaAndCommit = (newFormula) => {
-	formulaInfo.value = newFormula;
-	store.commit("changeCurrentData", formulaInfo.value);
-};
+	formulaInfo.value = newFormula
+	store.commit("changeCurrentData", formulaInfo.value)
+}
 
 const generate = () => {
 	if (isFirstTime.value) {
 		if (!currentData.value) {
-			const generatedFormula = generateFormulaAndName();
-			isFirstTime.value = false;
-			setFormulaAndCommit(generatedFormula);
-			return;
+			const generatedFormula = generateFormulaAndName()
+			isFirstTime.value = false
+			setFormulaAndCommit(generatedFormula)
+			return
 		}
 
-		formulaInfo.value = currentData.value;
-		isFirstTime.value = false;
-		return;
+		formulaInfo.value = currentData.value
+		isFirstTime.value = false
+		return
 	}
 
-	isFirstTime.value = false;
-	const oldFormulaAndName = formulaInfo.value; // Pass the old formula to avoid generating a duplicate in generateFormulaAndName.
-	const generatedFormula = generateFormulaAndName(oldFormulaAndName);
-	setFormulaAndCommit(generatedFormula);
-	formulaAnimation();
-};
-generate();
+	isFirstTime.value = false
+	const oldFormulaAndName = formulaInfo.value // Pass the old formula to avoid generating a duplicate in generateFormulaAndName.
+	const generatedFormula = generateFormulaAndName(oldFormulaAndName)
+	setFormulaAndCommit(generatedFormula)
+	formulaAnimation()
+}
+generate()
 
 const regenerate = (timeout = 3000) => {
 	setTimeout(() => {
-		input.value = "";
-		generate();
-		isDisabled.value = false;
-	}, timeout);
-};
+		input.value = ""
+		generate()
+		isDisabled.value = false
+	}, timeout)
+}
 
 /**
  * Process input from the on-screen keyboard
@@ -175,82 +182,82 @@ const regenerate = (timeout = 3000) => {
  * - if the key is added to the beginning of the array, move the cursor to the left side of the array
  */
 const processKeyboardInput = (key) => {
-	let inputArr = splitInput(input.value); // convert text to array "Zn(H_2PO_4)_2" => [ "Zn", "(", "H", "_2", "P", "O", "_4", ")", "_2" ]
-	let splitIndex = cursorIndex.value; // current cursor index
-	let element = inputArr ? inputArr[splitIndex] : ""; // current element in the array
+	let inputArr = splitInput(input.value) // convert text to array "Zn(H_2PO_4)_2" => [ "Zn", "(", "H", "_2", "P", "O", "_4", ")", "_2" ]
+	let splitIndex = cursorIndex.value // current cursor index
+	let element = inputArr ? inputArr[splitIndex] : "" // current element in the array
 
 	// to add cursor at the end if the key has underscore e.g. NH_4
-	let count;
-	if (key.includes("_")) count = splitInput(key).length - 1 + cursorIndex.value;
+	let count
+	if (key.includes("_")) count = splitInput(key).length - 1 + cursorIndex.value
 
 	// if the key is number add underscore for formation
 	if (!isNaN(key)) {
-		key = `_${key}`;
+		key = `_${key}`
 	}
 
 	// if the input is empty
 	if (!inputArr) {
-		if (key == "delete") return; // if key is delete return nothing
+		if (key == "delete") return // if key is delete return nothing
 
-		input.value = key;
-		if (count) cursorIndex.value = count;
-		isRightSideCursor.value = true;
-		return;
+		input.value = key
+		if (count) cursorIndex.value = count
+		isRightSideCursor.value = true
+		return
 	}
 
 	if (key == "delete") {
-		if (splitIndex == 0 && !isRightSideCursor.value) return;
+		if (splitIndex == 0 && !isRightSideCursor.value) return
 
-		inputArr[splitIndex] = "";
-		input.value = inputArr.join("");
+		inputArr[splitIndex] = ""
+		input.value = inputArr.join("")
 
 		if (cursorIndex.value == 0 && isRightSideCursor.value) {
-			cursorIndex.value = 0;
-			isRightSideCursor.value = false;
-			return;
+			cursorIndex.value = 0
+			isRightSideCursor.value = false
+			return
 		}
 
-		cursorIndex.value--;
-		return;
+		cursorIndex.value--
+		return
 	}
 
-	inputArr[splitIndex] = isRightSideCursor.value ? element + key : key + element;
-	input.value = inputArr.join("");
+	inputArr[splitIndex] = isRightSideCursor.value ? element + key : key + element
+	input.value = inputArr.join("")
 
 	if (splitIndex == 0 && !isRightSideCursor.value) {
-		if (count) cursorIndex.value = count;
-		isRightSideCursor.value = true;
-		return;
+		if (count) cursorIndex.value = count
+		isRightSideCursor.value = true
+		return
 	}
 
-	if (count) cursorIndex.value = count;
-	cursorIndex.value++;
-};
+	if (count) cursorIndex.value = count
+	cursorIndex.value++
+}
 
-const splitInput = (text) => (text ? text.match(/[A-Z][a-z]?|\(\)|\(|\)|_\d+/g) : "");
-const cursorIndex = ref(Math.abs(splitInput(input.value) ? splitInput(input.value).length - 1 : splitInput(input.value)));
+const splitInput = (text) => (text ? text.match(/[A-Z][a-z]?|\(\)|\(|\)|_\d+/g) : "")
+const cursorIndex = ref(Math.abs(splitInput(input.value) ? splitInput(input.value).length - 1 : splitInput(input.value)))
 
-const isRightSideCursor = ref(true);
+const isRightSideCursor = ref(true)
 
 const moveCursor = (index, event) => {
-	const elementWidth = event.target.offsetWidth;
-	const clickPosition = event.offsetX;
+	const elementWidth = event.target.offsetWidth
+	const clickPosition = event.offsetX
 
-	isRightSideCursor.value = clickPosition > elementWidth / 2;
+	isRightSideCursor.value = clickPosition > elementWidth / 2
 
 	if (!isRightSideCursor.value) {
 		if (index != 0) {
-			index--;
-			isRightSideCursor.value = true;
+			index--
+			isRightSideCursor.value = true
 		}
 	}
 
 	// console.log(index);
 	// console.log(splitInput(input.value)[index]);
-	cursorIndex.value = index;
-};
+	cursorIndex.value = index
+}
 
-const diaplayFormat = (text) => (/^_\d+$/.test(text) ? `<sub>${text.slice(1)}</sub>` : text);
+const diaplayFormat = (text) => (/^_\d+$/.test(text) ? `<sub>${text.slice(1)}</sub>` : text)
 </script>
 
 <style scoped>
