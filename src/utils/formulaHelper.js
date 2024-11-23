@@ -1,5 +1,5 @@
 import elements from "../assets/data.json";
-// import elements from "../assets/debug.json";
+// import elements from "../assets/debug.json"
 
 export function generateFormulaAndName(oldFormulaAndName = {}) {
 	let positiveElement = getRandomElement(elements.positive);

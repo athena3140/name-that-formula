@@ -1,4 +1,10 @@
 {
-	"positive": [{ "name": "phosphorus", "symbol": "P", "oxidationNumber": [3, 5], "isMetal": false }],
-	"negative": [{ "name": "bromine", "symbol": "Br", "oxidationNumber": [-1], "ideName": "bromide" }]
+	"positive": [
+		{ "name": "phosphorus", "symbol": "P", "oxidationNumber": [3, 5], "isMetal": false },
+		{ "name": "silver", "symbol": "Ag", "oxidationNumber": [1], "isMetal": true }
+	],
+	"negative": [
+		{ "name": "bromine", "symbol": "Br", "oxidationNumber": [-1], "ideName": "bromide" },
+		{ "name": "fluorine", "symbol": "F", "oxidationNumber": [-1], "ideName": "fluoride" }
+	]
 }
