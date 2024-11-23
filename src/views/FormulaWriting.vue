@@ -203,7 +203,7 @@ const processKeyboardInput = (key) => {
 		if (key == "delete") return; // if key is delete return nothing
 
 		input.value = key;
-		console.log(input.value);
+
 		if (count) cursorIndex.value = count;
 		isRightSideCursor.value = true;
 		return;
@@ -214,7 +214,6 @@ const processKeyboardInput = (key) => {
 
 		inputArr[splitIndex] = "";
 		input.value = inputArr.join("");
-		console.log(input.value);
 
 		if (cursorIndex.value == 0 && isRightSideCursor.value) {
 			cursorIndex.value = 0;
@@ -228,7 +227,6 @@ const processKeyboardInput = (key) => {
 
 	inputArr[splitIndex] = isRightSideCursor.value ? element + key : key + element;
 	input.value = inputArr.join("");
-	console.log(input.value);
 
 	if (splitIndex == 0 && !isRightSideCursor.value) {
 		if (count) cursorIndex.value = count;
